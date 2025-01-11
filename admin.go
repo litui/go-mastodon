@@ -53,10 +53,6 @@ type AdminViewAccountsInput struct {
 	ByDomain    string   `json:"by_domain,omitempty"`
 	Email       string   `json:"email,omitempty"`
 	IP          string   `json:"ip,omitempty"`
-	MaxID       ID       `json:"max_id,omitempty"`
-	SinceID     ID       `json:"since_id,omitempty"`
-	MinID       ID       `json:"min_id,omitempty"`
-	Limit       int64    `json:"limit"`
 }
 
 func (c *Client) AdminViewAccounts(ctx context.Context, input *AdminViewAccountsInput, pg *Pagination) ([]*AdminAccount, error) {
