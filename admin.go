@@ -3,6 +3,7 @@ package mastodon
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -56,14 +57,25 @@ type AdminViewAccountsInput struct {
 }
 
 func (c *Client) AdminViewAccounts(ctx context.Context, input *AdminViewAccountsInput, pg *Pagination) ([]*AdminAccount, error) {
-	inputBytes, _ := json.Marshal(input)
-	params := url.Values{}
-	json.Unmarshal(inputBytes, &params)
-
+	log.Println("Entered function: AdminViewAccounts")
 	var adminAccounts []*AdminAccount
-	err := c.doAPI(ctx, http.MethodGet, "/api/v2/admin/accounts", params, &adminAccounts, pg)
+	inputBytes, err := json.Marshal(input)
 	if err != nil {
+		log.Printf("Error: %v", err.Error())
+		return adminAccounts, err
+	}
+	params := url.Values{}
+	err = json.Unmarshal(inputBytes, &params)
+	if err != nil {
+		log.Printf("Error: %v", err.Error())
+		return adminAccounts, err
+	}
+
+	err = c.doAPI(ctx, http.MethodGet, "/api/v2/admin/accounts", params, &adminAccounts, pg)
+	if err != nil {
+		log.Printf("Error: %v", err.Error())
 		return nil, err
 	}
+	log.Println("Exiting function: AdminViewAccounts")
 	return adminAccounts, nil
 }
