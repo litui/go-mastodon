@@ -10,24 +10,24 @@ import (
 )
 
 type AdminAccount struct {
-	ID                     ID       `json:"id"`
-	Username               string   `json:"username"`
-	Domain                 string   `json:"domain"`
-	CreatedAt              string   `json:"created_at"`
-	Email                  string   `json:"email"`
-	IP                     string   `json:"ip"`
-	IPs                    []IP     `json:"ips"`
-	Locale                 string   `json:"locale"`
-	InviteRequest          string   `json:"invite_request"`
-	Role                   *Role    `json:"role"`
-	Confirmed              bool     `json:"confirmed"`
-	Approved               bool     `json:"approved"`
-	Disabled               bool     `json:"disabled"`
-	Silenced               bool     `json:"silenced"`
-	Suspended              bool     `json:"suspended"`
-	Account                *Account `json:"account"`
-	CreatedByApplicationID ID       `json:"created_by_application_id"`
-	InvitedByAccountID     ID       `json:"invited_by_account_id"`
+	ID                     ID        `json:"id"`
+	Username               string    `json:"username"`
+	Domain                 string    `json:"domain"`
+	CreatedAt              time.Time `json:"created_at"`
+	Email                  string    `json:"email"`
+	IP                     string    `json:"ip"`
+	IPs                    []IP      `json:"ips"`
+	Locale                 string    `json:"locale"`
+	InviteRequest          string    `json:"invite_request"`
+	Role                   *Role     `json:"role"`
+	Confirmed              bool      `json:"confirmed"`
+	Approved               bool      `json:"approved"`
+	Disabled               bool      `json:"disabled"`
+	Silenced               bool      `json:"silenced"`
+	Suspended              bool      `json:"suspended"`
+	Account                *Account  `json:"account"`
+	CreatedByApplicationID ID        `json:"created_by_application_id"`
+	InvitedByAccountID     ID        `json:"invited_by_account_id"`
 }
 
 type IP struct {
@@ -71,7 +71,7 @@ func (c *Client) AdminViewAccounts(ctx context.Context, input *AdminViewAccounts
 		return adminAccounts, err
 	}
 
-	err = c.doAPI(ctx, http.MethodGet, "/api/v2/admin/accounts", params, &adminAccounts, pg)
+	err = c.doAPI(ctx, http.MethodGet, "/api/v1/admin/accounts", params, &adminAccounts, pg)
 	if err != nil {
 		log.Printf("Error: %v", err.Error())
 		return nil, err
